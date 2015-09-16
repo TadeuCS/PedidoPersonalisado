@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Rel_Pedido_Itens" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="fec2d1cb-e40a-4a75-ba19-dba518f8516c">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="REF" class="java.lang.String"/>
+	<field name="DESCRICAO" class="java.lang.String">
+		<fieldDescription><![CDATA[Descrição]]></fieldDescription>
+	</field>
+	<field name="PRECOUNIT" class="java.lang.Double"/>
+	<field name="DESCONTOPERC" class="java.lang.Double"/>
+	<field name="TOTALITEM" class="java.lang.Double"/>
+	<field name="VLRLIQUIDO" class="java.lang.Double"/>
+	<field name="P" class="java.lang.Integer"/>
+	<field name="M" class="java.lang.Integer"/>
+	<field name="G" class="java.lang.Integer"/>
+	<field name="U" class="java.lang.Integer"/>
+	<field name="QTDE" class="java.lang.Integer"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<columnHeader>
+		<band height="21" splitType="Stretch">
+			<rectangle>
+				<reportElement x="0" y="1" width="555" height="20" backcolor="#CCCCCC" uuid="7be96fdf-8039-4221-a5a5-5ed6e3be7053"/>
+			</rectangle>
+			<staticText>
+				<reportElement x="0" y="0" width="45" height="20" uuid="d69f8fd9-24f4-4e9d-bc76-c4835bf1c05d"/>
+				<text><![CDATA[REF]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="45" y="1" width="173" height="20" uuid="75391cd9-9278-4ef9-a8ea-78f341982bb7"/>
+				<text><![CDATA[DESCRIÇÃO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="490" y="1" width="65" height="20" uuid="957ab90c-6fc6-4f0a-8155-a7ed6b00b27c"/>
+				<text><![CDATA[TOTALITEM]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="218" y="1" width="15" height="20" uuid="bf513796-994c-499f-b7fc-f0d133480697"/>
+				<text><![CDATA[P]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="425" y="0" width="65" height="20" uuid="d41df91b-a39d-44ed-9e18-c92b49d921f3"/>
+				<text><![CDATA[VLRLIQUIDO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="380" y="0" width="45" height="20" uuid="a4d05763-ce52-47df-9c78-62ca5e888da7"/>
+				<text><![CDATA[DESC. %]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="315" y="1" width="65" height="20" uuid="1a3d3eaa-ac83-46df-9e87-946c77e33004"/>
+				<text><![CDATA[PRECOUNIT]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="284" y="1" width="31" height="20" uuid="83be6e96-3fa4-4577-859b-b615df4b942e"/>
+				<text><![CDATA[QTDE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="269" y="1" width="15" height="20" uuid="0eebd8d1-4655-4a9f-8617-298e7ba1916a"/>
+				<text><![CDATA[U]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="254" y="1" width="15" height="20" uuid="8941ba81-5dd0-43cf-af34-0907a0b5ac76"/>
+				<text><![CDATA[G]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="235" y="1" width="15" height="20" uuid="82caf6e5-adec-48e0-92e3-a701a1ac03fd"/>
+				<text><![CDATA[M]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="24" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="45" height="20" uuid="2acb1aa9-6a93-40c7-96b3-b5120799635e"/>
+				<textFieldExpression><![CDATA[$F{REF}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="45" y="0" width="173" height="20" uuid="68a3274e-6e87-47a1-ae07-3c06fbcd86ae"/>
+				<textFieldExpression><![CDATA[$F{DESCRICAO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="490" y="0" width="65" height="20" uuid="2ea49bd1-eaa5-4ec6-b72a-516a1dffe562"/>
+				<textFieldExpression><![CDATA[$F{TOTALITEM}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="425" y="0" width="65" height="20" uuid="023041fa-5ed4-4211-82c6-69f50391407d"/>
+				<textFieldExpression><![CDATA[$F{VLRLIQUIDO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="380" y="0" width="45" height="20" uuid="26e1edb9-d8fc-45ab-9a0f-e67a47c1c8f9"/>
+				<textFieldExpression><![CDATA[$F{DESCONTOPERC}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="315" y="0" width="65" height="20" uuid="53359319-84ee-40e2-b069-c1de1e319395"/>
+				<textFieldExpression><![CDATA[$F{PRECOUNIT}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="218" y="0" width="15" height="20" uuid="4f9208cc-43e8-4936-ad02-6805f06f1697"/>
+				<textFieldExpression><![CDATA[$F{P}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="284" y="0" width="31" height="20" uuid="aa9b78fe-9191-414d-a7b9-e4cd39182a0f"/>
+				<textFieldExpression><![CDATA[$F{QTDE}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="269" y="0" width="15" height="20" uuid="5c6f3b9f-8cc7-4c50-82f5-cd343634eabf"/>
+				<textFieldExpression><![CDATA[$F{U}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="252" y="0" width="15" height="20" uuid="88bd92a4-0386-45dc-a545-2c4310d016fa"/>
+				<textFieldExpression><![CDATA[$F{G}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="235" y="0" width="15" height="20" uuid="37b72f17-39af-4f37-8a36-edad1431bb5f"/>
+				<textFieldExpression><![CDATA[$F{M}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>
