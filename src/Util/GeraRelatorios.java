@@ -1,6 +1,7 @@
 package Util;
 
-import java.io.File;
+import Model.Item;
+import Model.Pedido;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -13,10 +14,8 @@ import javax.swing.JOptionPane;
 import net.sf.jasperreports.engine.JRDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRResultSetDataSource;
-import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.view.JasperViewer;
 
@@ -87,14 +86,14 @@ public class GeraRelatorios {
         }
     }
 
-    public boolean imprimirByLista(String caminhoDoRelatorio, Map parametros, List<Object> lista) {
+    public boolean imprimirByLista(String caminhoDoRelatorio, Map parametros, List<Pedido> pedidos) {
         try {
             //compilação do JRXML
-            JasperReport report = JasperCompileManager.compileReport(caminhoDoRelatorio);
+//            JasperReport report = JasperCompileManager.compileReport(caminhoDoRelatorio);
 
             //preenchimento do relatório
             //JRBeanCollectionDataSource 
-            JasperPrint print = JasperFillManager.fillReport(caminhoDoRelatorio, parametros, new JRBeanCollectionDataSource(lista));
+            JasperPrint print = JasperFillManager.fillReport(caminhoDoRelatorio, parametros, new JRBeanCollectionDataSource(pedidos));
 
             JasperViewer.viewReport(print, false);
             return true;
@@ -102,7 +101,7 @@ public class GeraRelatorios {
 //            JasperExportManager.exportReportToPdfFile(print, "src/Relatorios/RelatorioEmPDF.pdf");
 //            JOptionPane.showMessageDialog(null, "Relatório gerado com sucesso!");
         } catch (JRException e) {
-//            JOptionPane.showMessageDialog(null, "Erro ao gerar relatório!\n" + e.getMessage());
+            JOptionPane.showMessageDialog(null, "Erro ao gerar relatório!\n" + e.getMessage());
             return false;
         }
     }

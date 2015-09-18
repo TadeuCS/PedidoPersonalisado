@@ -10,6 +10,7 @@ package Model;
  * @author Tadeu
  */
 public class Cliente {
+    private int CODCLIENTE;
     private String NOME;
     private String NOMEFANTASIA;
     private String ENDERECOENT;
@@ -25,6 +26,14 @@ public class Cliente {
     private String CONTATO;
 
     public Cliente() {
+    }
+
+    public int getCODCLIENTE() {
+        return CODCLIENTE;
+    }
+
+    public void setCODCLIENTE(int CODCLIENTE) {
+        this.CODCLIENTE = CODCLIENTE;
     }
 
     public String getNOME() {
