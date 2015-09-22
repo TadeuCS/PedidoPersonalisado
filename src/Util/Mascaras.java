@@ -1,6 +1,7 @@
 package Util;
 
 import java.text.DecimalFormat;
+import java.text.ParseException;
 import javax.swing.JFormattedTextField;
 import javax.swing.JOptionPane;
 import javax.swing.text.DefaultFormatterFactory;
@@ -31,6 +32,23 @@ public class Mascaras {
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Erro ao trocar a máscara do campo CPF");
+        }
+    }
+    public static String formataByMascaras(String pattern, Object value) {
+        MaskFormatter mask;
+        /* CEP - resultado: 81580-200
+         format("#####-###", "81580200");
+         CPF - resultado 012.345.699-01
+         format("###.###.###-##", "01234569905");
+         CNPJ - resultado: 01.234.569/9052-34
+         format("##.###.###/####-##", "01234569905234");
+         */
+        try {
+            mask = new MaskFormatter(pattern);
+            mask.setValueContainsLiteralCharacters(false);
+            return mask.valueToString(value);
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
         }
     }
 }

@@ -12,10 +12,10 @@ package Model;
 public class Item {
     private String REF;
     private String DESCRICAO;
-    private String P;
-    private String M;
-    private String G;
-    private String U;
+    private String qtdeP;
+    private String qtdeM;
+    private String qtdeG;
+    private String qtdeU;
     private String QTDE;
     private double VLRUNIT;
     private double DESCPERC;
@@ -41,36 +41,36 @@ public class Item {
         this.DESCRICAO = DESCRICAO;
     }
 
-    public String getP() {
-        return P;
+    public String getQtdeP() {
+        return qtdeP;
     }
 
-    public void setP(String P) {
-        this.P = P;
+    public void setQtdeP(String qtdeP) {
+        this.qtdeP = qtdeP;
     }
 
-    public String getM() {
-        return M;
+    public String getQtdeM() {
+        return qtdeM;
     }
 
-    public void setM(String M) {
-        this.M = M;
+    public void setQtdeM(String qtdeM) {
+        this.qtdeM = qtdeM;
     }
 
-    public String getG() {
-        return G;
+    public String getQtdeG() {
+        return qtdeG;
     }
 
-    public void setG(String G) {
-        this.G = G;
+    public void setQtdeG(String qtdeG) {
+        this.qtdeG = qtdeG;
     }
 
-    public String getU() {
-        return U;
+    public String getQtdeU() {
+        return qtdeU;
     }
 
-    public void setU(String U) {
-        this.U = U;
+    public void setQtdeU(String qtdeU) {
+        this.qtdeU = qtdeU;
     }
 
     public String getQTDE() {
@@ -112,6 +112,7 @@ public class Item {
     public void setVLRTOTALITEM(double VLRTOTALITEM) {
         this.VLRTOTALITEM = VLRTOTALITEM;
     }
-    
+
+   
     
 }
