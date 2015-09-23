@@ -43,9 +43,9 @@ public class Gerador {
     public void geraRelatorio(String codpedido) {
         try {
             GeraRelatorios geraRelatorios = new GeraRelatorios();
-            if (geraRelatorios.imprimirByLista("TesteItens.jasper", getParametros(trataCodigo(codpedido)), testaListaItens()) == false) {
-                geraRelatorios.imprimirByLista("src/Relatorios/TesteItens.jasper", getParametros(trataCodigo(codpedido)), testaListaItens());
-            }
+//            if (geraRelatorios.imprimirByLista("TesteItens.jasper", getParametros(trataCodigo(codpedido)), listItensByPedido(trataCodigo(codpedido))) == false) {
+            geraRelatorios.imprimirByLista("src/Relatorios/TesteItens.jasper", getParametros(trataCodigo(codpedido)), listItensByPedido(trataCodigo(codpedido)));
+//            }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);
         }
@@ -53,33 +53,41 @@ public class Gerador {
     }
 
     private List<Item> listItensByPedido(String codpedido) {
-        item = new Item();
         List<Item> itens = new ArrayList<>();
         try {
             st2 = conexao.getConexao();
-            rs2 = st2.executeQuery("select\n"
-                    + "i.codprod,p.referencia,p.descricao,i.precounit,c.descontoperc\n"
-                    + "from pedidoi i\n"
-                    + "inner join produto p on i.codprod=p.codprod\n"
-                    + "inner join pedidoc c on i.codpedido=c.codpedido\n"
+            rs2 = st2.executeQuery("select i.codprod,p.REFERENCIA,p.DESCRICAO,i.PRECOUNIT,c.DESCONTOPERC from pedidoi i\n"
+                    + "inner join produto p on i.CODPROD=p.CODPROD\n"
+                    + "inner join pedidoc c on i.CODPEDIDO=c.CODPEDIDO\n"
                     + "where i.codpedido= '" + codpedido + "' and i.tipopedido='55'\n"
-                    + "group by i.codprod ,p.referencia,p.descricao,i.precounit,c.descontoperc");
+                    + "group by 1,2,3,4,5");
             while (rs2.next()) {
-                Double vlrUnitario = Double.parseDouble(rs2.getString("precounit"));
-                Double percentual = Double.parseDouble(rs2.getString("descontoperc"));
-                Double vlrLiquido = vlrUnitario - (vlrUnitario * percentual / 100);
-                Integer qtdeP = Integer.parseInt(retornaQtdeByTamanho(codpedido, rs2.getString("codprod"), "= 'P'"));
-                Integer qtdeM = Integer.parseInt(retornaQtdeByTamanho(codpedido, rs2.getString("codprod"), "= 'M'"));
-                Integer qtdeG = Integer.parseInt(retornaQtdeByTamanho(codpedido, rs2.getString("codprod"), "= 'G'"));
-                Integer qtdeU = Integer.parseInt(retornaQtdeByTamanho(codpedido, rs2.getString("codprod"), "IS NULL"));
-                Integer qtdeTotal = qtdeP + qtdeM + qtdeG + qtdeU;
-
-                Double totalItem = qtdeTotal * vlrUnitario;
-
+                item = new Item();
+                item.setREF(rs2.getString("REFERENCIA"));
+                item.setDESCRICAO(rs2.getString("DESCRICAO"));
+                item.setVLRUNIT(Double.parseDouble(rs2.getString("precounit")));
+                item.setDESCPERC(Double.parseDouble(rs2.getString("descontoperc")) / 100);
+                Double vlrliq = Double.parseDouble(rs2.getString("precounit"))
+                        - (Double.parseDouble(rs2.getString("precounit"))
+                        * Double.parseDouble(rs2.getString("descontoperc")) / 100);
+                item.setVLRLIQUIDO(vlrliq);
+                item.setQtdeP(retornaQtdeByTamanho(codpedido, rs2.getString("codprod"), "= 'P'"));
+                item.setQtdeM(retornaQtdeByTamanho(codpedido, rs2.getString("codprod"), "= 'M'"));
+                item.setQtdeG(retornaQtdeByTamanho(codpedido, rs2.getString("codprod"), "= 'G'"));
+                item.setQtdeU(retornaQtdeByTamanho(codpedido, rs2.getString("codprod"), "IS NULL"));
+                Integer qtdeTotal = Integer.parseInt(item.getQtdeP())
+                        + Integer.parseInt(item.getQtdeM())
+                        + Integer.parseInt(item.getQtdeG())
+                        + Integer.parseInt(item.getQtdeU());
+                item.setQTDE(qtdeTotal + "");
+                Double totalItem = qtdeTotal * item.getVLRLIQUIDO();
+                item.setVLRTOTALITEM(totalItem);
+                itens.add(item);
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Erro ao Listar o Itens!\n" + e);
         }
+
         return itens;
     }
 
@@ -102,9 +110,7 @@ public class Gerador {
                     + "i.codprod = '" + codprod + "'\n"
                     + "and g.descricao " + grade + ";");
             while (rs3.next()) {
-                if (rs3.getString("quantidade").equals("null") == true) {
-                    qtde = "0";
-                } else {
+                if (rs3.getString("quantidade") != null) {
                     int i = (int) Double.parseDouble(rs3.getString("quantidade"));
                     qtde = i + "";
                 }
@@ -113,23 +119,6 @@ public class Gerador {
             JOptionPane.showMessageDialog(null, "Erro ao buscar a quantidade de produtos por grade!\n" + e);
         }
         return qtde;
-    }
-
-    private void imprimeItens(String codpedido) {
-        List<Item> itens = listItensByPedido(codpedido);
-        for (Item item : itens) {
-            System.out.println("Referencia: " + item.getREF());
-            System.out.println("Descricao: " + item.getDESCRICAO());
-            System.out.println("Qtde P: " + item.getQtdeP());
-            System.out.println("Qtde M: " + item.getQtdeM());
-            System.out.println("Qtde G: " + item.getQtdeG());
-            System.out.println("Qtde U: " + item.getQtdeU());
-            System.out.println("Qtde QTDE: " + item.getQTDE());
-            System.out.println("VLRUNITARIO: " + item.getVLRUNIT());
-            System.out.println("DESCONTO %: " + item.getDESCPERC());
-            System.out.println("VLRLIQUIDO: " + item.getVLRLIQUIDO());
-            System.out.println("TOTAL ITEM: " + item.getVLRTOTALITEM());
-        }
     }
 
     private List<Item> testaListaItens() {

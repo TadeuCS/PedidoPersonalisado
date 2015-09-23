@@ -94,11 +94,22 @@ public class GeraRelatorios {
             //JRBeanCollectionDataSource 
             JasperPrint print = JasperFillManager.fillReport(caminhoDoRelatorio, parametros, new JRBeanCollectionDataSource(pedidos));
 
-            JasperViewer.viewReport(print, false);
-            return true;
+            if (print == null) {
+                JOptionPane.showMessageDialog(null, "Falha ao criar o relatório", "Erro Relatorio", JOptionPane.ERROR_MESSAGE);
+                return false;
+            } else {
+                // verifica se tem alguma página  
+                if (print.getPages().isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Não há conteúdo no relatório. A visualização foi cancelada", "Relatório vazio", JOptionPane.INFORMATION_MESSAGE);
+                    return false;
+                } else {
+                    JasperViewer.viewReport(print, false);
+                    return true;
+                }
+            }
+            
             //exportar pra pdf
-//            JasperExportManager.exportReportToPdfFile(print, "src/Relatorios/RelatorioEmPDF.pdf");
-//            JOptionPane.showMessageDialog(null, "Relatório gerado com sucesso!");
+            //            JasperExportManager.exportReportToPdfFile(print, "src/Relatorios/RelatorioEmPDF.pdf");
         } catch (JRException e) {
 //            JOptionPane.showMessageDialog(null, "Erro ao gerar relatório!\n" + e.getMessage());
             return false;
