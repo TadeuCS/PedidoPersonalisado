@@ -10,6 +10,7 @@ import Util.Conexao;
 import Util.Data;
 import Util.GeraRelatorios;
 import Util.Mascaras;
+import java.awt.Event;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.text.NumberFormat;
@@ -18,6 +19,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.swing.JOptionPane;
+
 /**
  *
  * @author Tadeu
@@ -36,6 +38,8 @@ public class Frm_Principal extends javax.swing.JFrame {
 
     public Frm_Principal() {
         initComponents();
+        loading.setVisible(false);
+        conexao = new Conexao();
     }
 
     @SuppressWarnings("unchecked")
@@ -46,7 +50,7 @@ public class Frm_Principal extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         txt_codigo = new javax.swing.JTextField();
         btn_gerar = new javax.swing.JButton();
-        lb_msg = new javax.swing.JLabel();
+        loading = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Gerador Pedido Personalizado");
@@ -56,7 +60,13 @@ public class Frm_Principal extends javax.swing.JFrame {
         jLabel1.setText("Código do Pedido:");
 
         txt_codigo.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        txt_codigo.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txt_codigoKeyPressed(evt);
+            }
+        });
 
+        btn_gerar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/carregar.png"))); // NOI18N
         btn_gerar.setText("Gerar");
         btn_gerar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -72,31 +82,35 @@ public class Frm_Principal extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(txt_codigo, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 205, Short.MAX_VALUE)
-                .addComponent(btn_gerar, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txt_codigo, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 182, Short.MAX_VALUE)
+                .addComponent(btn_gerar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(txt_codigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btn_gerar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel1)
+                        .addComponent(txt_codigo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btn_gerar))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
+
+        loading.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        loading.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/loading.gif"))); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(lb_msg, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(loading, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -105,8 +119,8 @@ public class Frm_Principal extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lb_msg, javax.swing.GroupLayout.DEFAULT_SIZE, 23, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(loading, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -118,18 +132,38 @@ public class Frm_Principal extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Código do pedido inválido!");
             txt_codigo.requestFocus();
         } else {
-            try {
-                GeraRelatorios geraRelatorios = new GeraRelatorios();
-                if (geraRelatorios.imprimirByLista("TesteItens.jasper", getParametros(trataCodigo(txt_codigo.getText())), 
-                        listItensByPedido(trataCodigo(txt_codigo.getText()))) == false) {
-                    geraRelatorios.imprimirByLista("src/Relatorios/TesteItens.jasper", getParametros(trataCodigo(txt_codigo.getText())), 
-                            listItensByPedido(trataCodigo(txt_codigo.getText())));
+
+            Thread acao;
+            acao = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    loading.setVisible(true);
+                    try {
+                        GeraRelatorios geraRelatorios = new GeraRelatorios();
+                        if (geraRelatorios.imprimirByLista("Rel_PedidoPersonalizado.jasper", getParametros(trataCodigo(txt_codigo.getText())),
+                                listItensByPedido(trataCodigo(txt_codigo.getText()))) == false) {
+                            if(geraRelatorios.imprimirByLista("src/Relatorios/Rel_PedidoPersonalizado.jasper", getParametros(trataCodigo(txt_codigo.getText())),
+                                    listItensByPedido(trataCodigo(txt_codigo.getText())))==true){
+                                loading.setVisible(false);
+                            }
+                        }else{
+                            loading.setVisible(false);
+                        }
+                    } catch (Exception e) {
+                        JOptionPane.showMessageDialog(null, e);
+                    }
                 }
-            } catch (Exception e) {
-                JOptionPane.showMessageDialog(null, e);
-            }
+            });
+            acao.start();
+
         }
     }//GEN-LAST:event_btn_gerarActionPerformed
+
+    private void txt_codigoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_codigoKeyPressed
+        if (evt.getKeyCode() == Event.ENTER) {
+            btn_gerar.doClick();
+        }
+    }//GEN-LAST:event_txt_codigoKeyPressed
 
     /**
      * @param args the command line arguments
@@ -170,7 +204,7 @@ public class Frm_Principal extends javax.swing.JFrame {
     private javax.swing.JButton btn_gerar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JLabel lb_msg;
+    private javax.swing.JLabel loading;
     private javax.swing.JTextField txt_codigo;
     // End of variables declaration//GEN-END:variables
 
@@ -180,7 +214,6 @@ public class Frm_Principal extends javax.swing.JFrame {
             if (geraRelatorios.imprimirByLista("TesteItens.jasper", getParametros(codpedido), listItensByPedido(codpedido)) == false) {
                 geraRelatorios.imprimirByLista("src/Relatorios/TesteItens.jasper", getParametros(codpedido), listItensByPedido(codpedido));
             }
-            lb_msg.setText("Pedido gerado com sucesso!");
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);
         }
@@ -189,13 +222,8 @@ public class Frm_Principal extends javax.swing.JFrame {
 
     private List<Item> listItensByPedido(String codpedido) {
         List<Item> itens = new ArrayList<>();
-//        Thread acao;
-//        acao = new Thread(new Runnable() {
-//            @Override
-//            public void run() {
         try {
             st2 = conexao.getConexao();
-            lb_msg.setText("Listando os produtos do pedido: " + codpedido + " !");
             rs2 = st2.executeQuery("select i.codprod,p.REFERENCIA,p.DESCRICAO,i.PRECOUNIT,c.DESCONTOPERC from pedidoi i\n"
                     + "inner join produto p on i.CODPROD=p.CODPROD\n"
                     + "inner join pedidoc c on i.CODPEDIDO=c.CODPEDIDO\n"
@@ -205,42 +233,32 @@ public class Frm_Principal extends javax.swing.JFrame {
             while (rs2.next()) {
                 item = new Item();
                 String codprod = rs2.getString("codprod");
-                lb_msg.setText("Carregando dados do produto: " + codprod + " !");
                 item.setREF(rs2.getString("REFERENCIA"));
                 item.setDESCRICAO(rs2.getString("DESCRICAO"));
                 item.setVLRUNIT(Double.parseDouble(rs2.getString("precounit")));
                 item.setDESCPERC(Double.parseDouble(rs2.getString("descontoperc")) / 100);
-                lb_msg.setText("Calculando o Valor Liquido do produto: " + codprod + " !");
                 Double vlrliq = Double.parseDouble(rs2.getString("precounit"))
                         - (Double.parseDouble(rs2.getString("precounit"))
                         * Double.parseDouble(rs2.getString("descontoperc")) / 100);
                 item.setVLRLIQUIDO(vlrliq);
-                lb_msg.setText("Calculando a quantidade de P do produto: " + codprod + " !");
                 item.setQtdeP(retornaQtdeByTamanho(codpedido, codprod, "= 'P'"));
-                lb_msg.setText("Calculando a quantidade de M do produto: " + codprod + " !");
                 item.setQtdeM(retornaQtdeByTamanho(codpedido, codprod, "= 'M'"));
-                lb_msg.setText("Calculando a quantidade de G do produto: " + codprod + " !");
                 item.setQtdeG(retornaQtdeByTamanho(codpedido, codprod, "= 'G'"));
-                lb_msg.setText("Calculando a quantidade de U do produto: " + codprod + " !");
                 item.setQtdeU(retornaQtdeByTamanho(codpedido, codprod, "IS NULL"));
-                lb_msg.setText("Calculando a quantidade total do produto: " + codprod + " !");
                 Integer qtdeTotal = Integer.parseInt(item.getQtdeP())
                         + Integer.parseInt(item.getQtdeM())
                         + Integer.parseInt(item.getQtdeG())
                         + Integer.parseInt(item.getQtdeU());
                 item.setQTDE(qtdeTotal + "");
-                lb_msg.setText("Calculando o Valor Total do produto: " + codprod + " !");
                 Double totalItem = qtdeTotal * item.getVLRLIQUIDO();
                 item.setVLRTOTALITEM(totalItem);
                 itens.add(item);
+
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Erro ao Listar o Itens!\n" + e);
         }
 
-//            }
-//        });
-//        acao.start();
         return itens;
     }
 
@@ -305,7 +323,7 @@ public class Frm_Principal extends javax.swing.JFrame {
 
     private Map getParametros(String codigo) {
         parameters = new HashMap();
-        parameters.put("logo", "src/Relatorios/logo.jpg");
+        parameters.put("logo", "src/img/logo.jpg");
         try {
             st = conexao.getConexao();
             rs = st.executeQuery("select\n"
@@ -354,4 +372,5 @@ public class Frm_Principal extends javax.swing.JFrame {
         }
         return parameters;
     }
+
 }
