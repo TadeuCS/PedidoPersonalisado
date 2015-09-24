@@ -8,6 +8,7 @@ package View;
 import Model.Item;
 import Util.Conexao;
 import Util.Data;
+import Util.FixedLengthDocument;
 import Util.GeraRelatorios;
 import Util.Mascaras;
 import java.awt.Event;
@@ -38,6 +39,7 @@ public class Frm_Principal extends javax.swing.JFrame {
 
     public Frm_Principal() {
         initComponents();
+        txt_codigo.setDocument(new FixedLengthDocument(8));
         loading.setVisible(false);
         conexao = new Conexao();
     }
@@ -132,7 +134,6 @@ public class Frm_Principal extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Código do pedido inválido!");
             txt_codigo.requestFocus();
         } else {
-
             Thread acao;
             acao = new Thread(new Runnable() {
                 @Override
@@ -142,11 +143,10 @@ public class Frm_Principal extends javax.swing.JFrame {
                         GeraRelatorios geraRelatorios = new GeraRelatorios();
                         if (geraRelatorios.imprimirByLista("Rel_PedidoPersonalizado.jasper", getParametros(trataCodigo(txt_codigo.getText())),
                                 listItensByPedido(trataCodigo(txt_codigo.getText()))) == false) {
-                            if(geraRelatorios.imprimirByLista("src/Relatorios/Rel_PedidoPersonalizado.jasper", getParametros(trataCodigo(txt_codigo.getText())),
-                                    listItensByPedido(trataCodigo(txt_codigo.getText())))==true){
-                                loading.setVisible(false);
-                            }
-                        }else{
+                            geraRelatorios.imprimirByLista("src/Relatorios/Rel_PedidoPersonalizado.jasper", getParametros(trataCodigo(txt_codigo.getText())),
+                                    listItensByPedido(trataCodigo(txt_codigo.getText())));
+                            loading.setVisible(false);
+                        } else {
                             loading.setVisible(false);
                         }
                     } catch (Exception e) {
@@ -217,7 +217,6 @@ public class Frm_Principal extends javax.swing.JFrame {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);
         }
-
     }
 
     private List<Item> listItensByPedido(String codpedido) {
@@ -258,7 +257,6 @@ public class Frm_Principal extends javax.swing.JFrame {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Erro ao Listar o Itens!\n" + e);
         }
-
         return itens;
     }
 
