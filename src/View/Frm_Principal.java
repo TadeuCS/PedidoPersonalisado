@@ -337,11 +337,13 @@ public class Frm_Principal extends javax.swing.JFrame {
         try {
             st = conexao.getConexao();
             rs = st.executeQuery("select\n"
-                    + "p.codpedido,v.nome vendedor,p.datapedido,c.nome razao,c.nomefantasia,c.enderecoent,c.bairroent,\n"
+                    + "p.codpedido,v.nome vendedor,p.datapedido,c.nome razao,c.nomefantasia,c.enderecoent,comp.endereconfe,"
+                    + "comp.numeronfe,c.bairroent,\n"
                     + "c.cepent,cid.cidade,cid.estado,c.email,c.fone,c.celular,c.cgccpf,c.inscest,g.descricao pagamento,\n"
                     + "c.contato,p.dataentrega,p.vlracrescimo,p.totalpedido,p.observacao1,p.observacao2,p.observacao3,c.PESSOA_FJ\n"
                     + "from pedidoc p\n"
                     + "inner join cliente c on p.codcliente=c.codcliente\n"
+                    + "inner join compclie comp on c.codcliente=comp.codcliente\n"
                     + "inner join vendend v on p.codvendedor=v.codvendedor\n"
                     + "inner join cidades cid on c.codcidade=cid.codcidade\n"
                     + "inner join condpag g on p.codprazo=g.codprazo\n"
@@ -352,7 +354,8 @@ public class Frm_Principal extends javax.swing.JFrame {
                 parameters1.put("dataPedido", Data.getDataByDate(Data.getDataByTexto(rs.getString("datapedido").replace("-", "/"), "yyyy/MM/dd"), "dd/MM/yyyy"));
                 parameters1.put("razao", rs.getString("razao"));
                 parameters1.put("nomeFantasia", rs.getString("nomefantasia"));
-                parameters1.put("endereco", rs.getString("enderecoent"));
+                parameters1.put("enderecoent", rs.getString("enderecoent"));
+                parameters1.put("endereconfe", rs.getString("endereconfe")+","+rs.getString("numeronfe"));
                 parameters1.put("bairro", rs.getString("bairroent"));
                 parameters1.put("cep", Mascaras.formataByMascaras("#####-###", rs.getString("cepent")));
                 parameters1.put("cidade", rs.getString("cidade"));
