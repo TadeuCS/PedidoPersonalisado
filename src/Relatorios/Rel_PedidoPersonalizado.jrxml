@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Rel_PedidoPersonalizado" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="cbc2b2ee-1c25-40c3-92cb-71084264cf3a">
 	<property name="ireport.zoom" value="1.771561000000001"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="180"/>
+	<property name="ireport.y" value="0"/>
 	<style name="table">
 		<box>
 			<pen lineWidth="1.0" lineColor="#000000"/>
@@ -87,9 +87,6 @@
 	<parameter name="obs1" class="java.lang.String"/>
 	<parameter name="obs2" class="java.lang.String"/>
 	<parameter name="obs3" class="java.lang.String"/>
-	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
-		<defaultValueExpression><![CDATA["C:\\Users\\Tadeu-\\Documents\\NetBeansProjects\\PedidoPersonalisado\\src\\Relatorios\\"]]></defaultValueExpression>
-	</parameter>
 	<field name="REF" class="java.lang.String"/>
 	<field name="DESCRICAO" class="java.lang.String"/>
 	<field name="qtdeP" class="java.lang.String"/>
@@ -104,6 +101,9 @@
 	<variable name="QTDE_1" class="java.lang.Integer" resetType="Column" calculation="Count">
 		<variableExpression><![CDATA[$F{QTDE}]]></variableExpression>
 	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
 	<title>
 		<band height="195" splitType="Stretch">
 			<rectangle>
@@ -774,4 +774,7 @@
 			</textField>
 		</band>
 	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
 </jasperReport>

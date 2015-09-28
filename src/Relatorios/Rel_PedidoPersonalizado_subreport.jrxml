@@ -106,7 +106,7 @@
 				</textElement>
 				<text><![CDATA[UF:]]></text>
 			</staticText>
-			<textField>
+			<textField isBlankWhenNull="true">
 				<reportElement x="399" y="76" width="100" height="38" uuid="ad5414ed-1bba-4844-9d19-722b23de9871"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="Arial" size="18"/>

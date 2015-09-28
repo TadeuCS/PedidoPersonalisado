@@ -30,12 +30,15 @@ public class Frm_Principal extends javax.swing.JFrame {
     Statement st;
     Statement st2;
     Statement st3;
+    Statement st4;
     ResultSet rs;
     ResultSet rs2;
     ResultSet rs3;
+    ResultSet rs4;
     Conexao conexao;
     Item item;
-    Map parameters;
+    Map parameters1;
+    Map parameters2;
 
     public Frm_Principal() {
         initComponents();
@@ -150,9 +153,9 @@ public class Frm_Principal extends javax.swing.JFrame {
                         } else {
                             loading.setVisible(false);
                         }
-                        if (geraPedidoPersonalizado.imprimirByLista("Rel_PedidoPersonalizado_subreport.jasper", getParametrosEtiqueta(trataCodigo(txt_codigo.getText())),
+                        if (geraEtiquetaRemessa.imprimirByLista("Rel_PedidoPersonalizado_subreport.jasper", getParametrosEtiqueta(trataCodigo(txt_codigo.getText())),
                                 listItensByPedido(trataCodigo(txt_codigo.getText()))) == false) {
-                            geraPedidoPersonalizado.imprimirByLista("src/Relatorios/Rel_PedidoPersonalizado_subreport.jasper", getParametrosEtiqueta(trataCodigo(txt_codigo.getText())),
+                            geraEtiquetaRemessa.imprimirByLista("src/Relatorios/Rel_PedidoPersonalizado_subreport.jasper", getParametrosEtiqueta(trataCodigo(txt_codigo.getText())),
                                     listItensByPedido(trataCodigo(txt_codigo.getText())));
                             loading.setVisible(false);
                         } else {
@@ -217,16 +220,16 @@ public class Frm_Principal extends javax.swing.JFrame {
     private javax.swing.JTextField txt_codigo;
     // End of variables declaration//GEN-END:variables
 
-    public void geraRelatorio(String codpedido) {
-        try {
-            GeraRelatorios geraRelatorios = new GeraRelatorios();
-            if (geraRelatorios.imprimirByLista("TesteItens.jasper", getParametrosPedido(codpedido), listItensByPedido(codpedido)) == false) {
-                geraRelatorios.imprimirByLista("src/Relatorios/TesteItens.jasper", getParametrosPedido(codpedido), listItensByPedido(codpedido));
-            }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, e);
-        }
-    }
+//    public void geraRelatorio(String codpedido) {
+//        try {
+//            GeraRelatorios geraRelatorios = new GeraRelatorios();
+//            if (geraRelatorios.imprimirByLista("TesteItens.jasper", getParametrosPedido(codpedido), listItensByPedido(codpedido)) == false) {
+//                geraRelatorios.imprimirByLista("src/Relatorios/TesteItens.jasper", getParametrosPedido(codpedido), listItensByPedido(codpedido));
+//            }
+//        } catch (Exception e) {
+//            JOptionPane.showMessageDialog(null, e);
+//        }
+//    }
 
     private List<Item> listItensByPedido(String codpedido) {
         List<Item> itens = new ArrayList<>();
@@ -329,8 +332,8 @@ public class Frm_Principal extends javax.swing.JFrame {
     }
 
     private Map getParametrosPedido(String codigo) {
-        parameters = new HashMap();
-        parameters.put("logo", "src/img/logo.jpg");
+        parameters1 = new HashMap();
+        parameters1.put("logo", "src/img/logo.jpg");
         try {
             st = conexao.getConexao();
             rs = st.executeQuery("select\n"
@@ -344,47 +347,47 @@ public class Frm_Principal extends javax.swing.JFrame {
                     + "inner join condpag g on p.codprazo=g.codprazo\n"
                     + "where p.codpedido='" + codigo + "' and p.tipopedido='55'");
             while (rs.next()) {
-                parameters.put("codpedido", rs.getString("codpedido"));
-                parameters.put("vendedor", rs.getString("vendedor"));
-                parameters.put("dataPedido", Data.getDataByDate(Data.getDataByTexto(rs.getString("datapedido").replace("-", "/"), "yyyy/MM/dd"), "dd/MM/yyyy"));
-                parameters.put("razao", rs.getString("razao"));
-                parameters.put("nomeFantasia", rs.getString("nomefantasia"));
-                parameters.put("endereco", rs.getString("enderecoent"));
-                parameters.put("bairro", rs.getString("bairroent"));
-                parameters.put("cep", Mascaras.formataByMascaras("#####-###", rs.getString("cepent")));
-                parameters.put("cidade", rs.getString("cidade"));
-                parameters.put("uf", rs.getString("estado"));
-                parameters.put("email", rs.getString("email"));
-                parameters.put("telefone", Mascaras.formataByMascaras("(##) ####-####", rs.getString("fone")));
-                parameters.put("celular", Mascaras.formataByMascaras("(##) ####-####", rs.getString("celular")));
+                parameters1.put("codpedido", rs.getString("codpedido"));
+                parameters1.put("vendedor", rs.getString("vendedor"));
+                parameters1.put("dataPedido", Data.getDataByDate(Data.getDataByTexto(rs.getString("datapedido").replace("-", "/"), "yyyy/MM/dd"), "dd/MM/yyyy"));
+                parameters1.put("razao", rs.getString("razao"));
+                parameters1.put("nomeFantasia", rs.getString("nomefantasia"));
+                parameters1.put("endereco", rs.getString("enderecoent"));
+                parameters1.put("bairro", rs.getString("bairroent"));
+                parameters1.put("cep", Mascaras.formataByMascaras("#####-###", rs.getString("cepent")));
+                parameters1.put("cidade", rs.getString("cidade"));
+                parameters1.put("uf", rs.getString("estado"));
+                parameters1.put("email", rs.getString("email"));
+                parameters1.put("telefone", Mascaras.formataByMascaras("(##) ####-####", rs.getString("fone")));
+                parameters1.put("celular", Mascaras.formataByMascaras("(##) ####-####", rs.getString("celular")));
                 if (rs.getString("PESSOA_FJ").equals("F") == true) {
-                    parameters.put("cpf", Mascaras.formataByMascaras("###.###.###-##", rs.getString("cgccpf")));
+                    parameters1.put("cpf", Mascaras.formataByMascaras("###.###.###-##", rs.getString("cgccpf")));
                 } else {
-                    parameters.put("cpf", Mascaras.formataByMascaras("##.###.###/####-##", rs.getString("cgccpf")));
+                    parameters1.put("cpf", Mascaras.formataByMascaras("##.###.###/####-##", rs.getString("cgccpf")));
                 }
-                parameters.put("inscest", rs.getString("inscest"));
-                parameters.put("pagamento", rs.getString("pagamento"));
-                parameters.put("contato", rs.getString("contato"));
+                parameters1.put("inscest", rs.getString("inscest"));
+                parameters1.put("pagamento", rs.getString("pagamento"));
+                parameters1.put("contato", rs.getString("contato"));
                 if (rs.getString("dataentrega") != null) {
-                    parameters.put("dataEntrega", Data.getDataByDate(Data.getDataByTexto(rs.getString("dataentrega").replace("-", "/"), "yyyy/MM/dd"), "dd/MM/yyyy"));
+                    parameters1.put("dataEntrega", Data.getDataByDate(Data.getDataByTexto(rs.getString("dataentrega").replace("-", "/"), "yyyy/MM/dd"), "dd/MM/yyyy"));
                 }
-                parameters.put("vlrAcrescimo", NumberFormat.getCurrencyInstance().format(Double.parseDouble(rs.getString("vlracrescimo"))));
-                parameters.put("vlrTotal", NumberFormat.getCurrencyInstance().format(Double.parseDouble(rs.getString("totalpedido"))));
-                parameters.put("obs1", rs.getString("observacao1"));
-                parameters.put("obs2", rs.getString("observacao2"));
-                parameters.put("obs3", rs.getString("observacao3"));
+                parameters1.put("vlrAcrescimo", NumberFormat.getCurrencyInstance().format(Double.parseDouble(rs.getString("vlracrescimo"))));
+                parameters1.put("vlrTotal", NumberFormat.getCurrencyInstance().format(Double.parseDouble(rs.getString("totalpedido"))));
+                parameters1.put("obs1", rs.getString("observacao1"));
+                parameters1.put("obs2", rs.getString("observacao2"));
+                parameters1.put("obs3", rs.getString("observacao3"));
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Erro ao carregar os parâmetros do relatório!\n" + e);
         }
-        return parameters;
+        return parameters1;
     }
 
     private Map getParametrosEtiqueta(String codigo) {
-        parameters = new HashMap();
+        parameters2 = new HashMap();
         try {
-            st = conexao.getConexao();
-            rs = st.executeQuery("select\n"
+            st4 = conexao.getConexao();
+            rs4 = st4.executeQuery("select\n"
                     + "c.NOME razao,c.ENDERECOENT endereco,\n"
                     + "c.BAIRROENT bairro,cid.CIDADE cidade,c.ESTADOENT estado,c.CEPENT cep\n"
                     + "from pedidoc p \n"
@@ -393,18 +396,18 @@ public class Frm_Principal extends javax.swing.JFrame {
                     + "inner join compclie comp on c.CODCLIENTE=comp.CODCLIENTE"
                     + " where p.codpedido='" + codigo + "' and p.tipopedido='55'"
             );
-            while (rs.next()) {
-                parameters.put("razao", rs.getString("razao"));
-                parameters.put("endereco", rs.getString("endereco"));
-                parameters.put("bairro", rs.getString("bairro"));
-                parameters.put("cidade", rs.getString("cidade"));
-                parameters.put("estado", rs.getString("estado"));
-                parameters.put("cep", Mascaras.formataByMascaras("#####-###", rs.getString("cep")));
+            while (rs4.next()) {
+                parameters2.put("razao", rs4.getString("razao"));
+                parameters2.put("endereco", rs4.getString("endereco"));
+                parameters2.put("bairro", rs4.getString("bairro"));
+                parameters2.put("cidade", rs4.getString("cidade"));
+                parameters2.put("estado", rs4.getString("estado"));
+                parameters2.put("cep", Mascaras.formataByMascaras("#####-###", rs4.getString("cep")));
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Erro ao carregar os parâmetros do relatório!\n" + e);
         }
-        return parameters;
+        return parameters2;
     }
 
 }
