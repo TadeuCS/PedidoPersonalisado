@@ -140,10 +140,19 @@ public class Frm_Principal extends javax.swing.JFrame {
                 public void run() {
                     loading.setVisible(true);
                     try {
-                        GeraRelatorios geraRelatorios = new GeraRelatorios();
-                        if (geraRelatorios.imprimirByLista("Rel_PedidoPersonalizado.jasper", getParametros(trataCodigo(txt_codigo.getText())),
+                        GeraRelatorios geraPedidoPersonalizado = new GeraRelatorios();
+                        GeraRelatorios geraEtiquetaRemessa = new GeraRelatorios();
+                        if (geraPedidoPersonalizado.imprimirByLista("Rel_PedidoPersonalizado.jasper", getParametrosPedido(trataCodigo(txt_codigo.getText())),
                                 listItensByPedido(trataCodigo(txt_codigo.getText()))) == false) {
-                            geraRelatorios.imprimirByLista("src/Relatorios/Rel_PedidoPersonalizado.jasper", getParametros(trataCodigo(txt_codigo.getText())),
+                            geraPedidoPersonalizado.imprimirByLista("src/Relatorios/Rel_PedidoPersonalizado.jasper", getParametrosPedido(trataCodigo(txt_codigo.getText())),
+                                    listItensByPedido(trataCodigo(txt_codigo.getText())));
+                            loading.setVisible(false);
+                        } else {
+                            loading.setVisible(false);
+                        }
+                        if (geraPedidoPersonalizado.imprimirByLista("Rel_PedidoPersonalizado_subreport.jasper", getParametrosEtiqueta(trataCodigo(txt_codigo.getText())),
+                                listItensByPedido(trataCodigo(txt_codigo.getText()))) == false) {
+                            geraPedidoPersonalizado.imprimirByLista("src/Relatorios/Rel_PedidoPersonalizado_subreport.jasper", getParametrosEtiqueta(trataCodigo(txt_codigo.getText())),
                                     listItensByPedido(trataCodigo(txt_codigo.getText())));
                             loading.setVisible(false);
                         } else {
@@ -211,8 +220,8 @@ public class Frm_Principal extends javax.swing.JFrame {
     public void geraRelatorio(String codpedido) {
         try {
             GeraRelatorios geraRelatorios = new GeraRelatorios();
-            if (geraRelatorios.imprimirByLista("TesteItens.jasper", getParametros(codpedido), listItensByPedido(codpedido)) == false) {
-                geraRelatorios.imprimirByLista("src/Relatorios/TesteItens.jasper", getParametros(codpedido), listItensByPedido(codpedido));
+            if (geraRelatorios.imprimirByLista("TesteItens.jasper", getParametrosPedido(codpedido), listItensByPedido(codpedido)) == false) {
+                geraRelatorios.imprimirByLista("src/Relatorios/TesteItens.jasper", getParametrosPedido(codpedido), listItensByPedido(codpedido));
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);
@@ -319,7 +328,7 @@ public class Frm_Principal extends javax.swing.JFrame {
         return itens;
     }
 
-    private Map getParametros(String codigo) {
+    private Map getParametrosPedido(String codigo) {
         parameters = new HashMap();
         parameters.put("logo", "src/img/logo.jpg");
         try {
@@ -364,6 +373,33 @@ public class Frm_Principal extends javax.swing.JFrame {
                 parameters.put("obs1", rs.getString("observacao1"));
                 parameters.put("obs2", rs.getString("observacao2"));
                 parameters.put("obs3", rs.getString("observacao3"));
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Erro ao carregar os parâmetros do relatório!\n" + e);
+        }
+        return parameters;
+    }
+
+    private Map getParametrosEtiqueta(String codigo) {
+        parameters = new HashMap();
+        try {
+            st = conexao.getConexao();
+            rs = st.executeQuery("select\n"
+                    + "c.NOME razao,c.ENDERECOENT endereco,\n"
+                    + "c.BAIRROENT bairro,cid.CIDADE cidade,c.ESTADOENT estado,c.CEPENT cep\n"
+                    + "from pedidoc p \n"
+                    + "inner join cliente c on p.CODCLIENTE=c.CODCLIENTE\n"
+                    + "inner join CIDADES cid on c.CODCIDADEENT=cid.CODCIDADE\n"
+                    + "inner join compclie comp on c.CODCLIENTE=comp.CODCLIENTE"
+                    + " where p.codpedido='" + codigo + "' and p.tipopedido='55'"
+            );
+            while (rs.next()) {
+                parameters.put("razao", rs.getString("razao"));
+                parameters.put("endereco", rs.getString("endereco"));
+                parameters.put("bairro", rs.getString("bairro"));
+                parameters.put("cidade", rs.getString("cidade"));
+                parameters.put("estado", rs.getString("estado"));
+                parameters.put("cep", Mascaras.formataByMascaras("#####-###", rs.getString("cep")));
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Erro ao carregar os parâmetros do relatório!\n" + e);
