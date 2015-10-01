@@ -338,15 +338,15 @@ public class Frm_Principal extends javax.swing.JFrame {
             st = conexao.getConexao();
             rs = st.executeQuery("select\n"
                     + "p.codpedido,v.nome vendedor,p.datapedido,c.nome razao,c.nomefantasia,c.enderecoent,comp.endereconfe,"
-                    + "comp.numeronfe,c.bairroent,\n"
-                    + "c.cepent,cid.cidade,cid.estado,c.email,c.fone,c.celular,c.cgccpf,c.inscest,g.descricao pagamento,\n"
+                    + "comp.numeronfe,c.bairroent,p.FRETE frete,\n"
+                    + "c.cepent,cid.cidade,cid.estado,c.email,c.fone,c.PREFIXCELULAR||c.celular celular,c.cgccpf,c.inscest,g.descricao pagamento,\n"
                     + "c.contato,p.dataentrega,p.vlracrescimo,p.totalpedido,p.observacao1,p.observacao2,p.observacao3,c.PESSOA_FJ\n"
                     + "from pedidoc p\n"
                     + "inner join cliente c on p.codcliente=c.codcliente\n"
                     + "inner join compclie comp on c.codcliente=comp.codcliente\n"
                     + "inner join vendend v on p.codvendedor=v.codvendedor\n"
                     + "inner join cidades cid on c.codcidade=cid.codcidade\n"
-                    + "inner join condpag g on p.codprazo=g.codprazo\n"
+                    + "left join condpag g on p.codprazo=g.codprazo\n"
                     + "where p.codpedido='" + codigo + "' and p.tipopedido='55'");
             while (rs.next()) {
                 parameters1.put("codpedido", rs.getString("codpedido"));
@@ -375,7 +375,8 @@ public class Frm_Principal extends javax.swing.JFrame {
                     parameters1.put("dataEntrega", Data.getDataByDate(Data.getDataByTexto(rs.getString("dataentrega").replace("-", "/"), "yyyy/MM/dd"), "dd/MM/yyyy"));
                 }
                 parameters1.put("vlrAcrescimo", NumberFormat.getCurrencyInstance().format(Double.parseDouble(rs.getString("vlracrescimo"))));
-                parameters1.put("vlrTotal", NumberFormat.getCurrencyInstance().format(Double.parseDouble(rs.getString("totalpedido"))));
+                parameters1.put("vlrFrete", NumberFormat.getCurrencyInstance().format(Double.parseDouble(rs.getString("frete"))));
+                parameters1.put("vlrTotal", NumberFormat.getCurrencyInstance().format(Double.parseDouble(rs.getString("totalpedido"))+Double.parseDouble(rs.getString("frete"))));
                 parameters1.put("obs1", rs.getString("observacao1"));
                 parameters1.put("obs2", rs.getString("observacao2"));
                 parameters1.put("obs3", rs.getString("observacao3"));
@@ -391,8 +392,8 @@ public class Frm_Principal extends javax.swing.JFrame {
         try {
             st4 = conexao.getConexao();
             rs4 = st4.executeQuery("select\n"
-                    + "c.NOME razao,c.ENDERECOENT endereco,\n"
-                    + "c.BAIRROENT bairro,cid.CIDADE cidade,c.ESTADOENT estado,c.CEPENT cep\n"
+                    + "c.NOME razao,c.nomefantasia,c.ENDERECOENT endereco,\n"
+                    + "c.BAIRROENT bairro,cid.CIDADE cidade,cid.estado estado,c.CEPENT cep\n"
                     + "from pedidoc p \n"
                     + "inner join cliente c on p.CODCLIENTE=c.CODCLIENTE\n"
                     + "inner join CIDADES cid on c.CODCIDADEENT=cid.CODCIDADE\n"
@@ -403,9 +404,9 @@ public class Frm_Principal extends javax.swing.JFrame {
                 parameters2.put("razao", rs4.getString("razao"));
                 parameters2.put("endereco", rs4.getString("endereco"));
                 parameters2.put("bairro", rs4.getString("bairro"));
-                parameters2.put("cidade", rs4.getString("cidade"));
-                parameters2.put("estado", rs4.getString("estado"));
+                parameters2.put("cidade", rs4.getString("cidade")+" - "+rs4.getString("estado"));
                 parameters2.put("cep", Mascaras.formataByMascaras("#####-###", rs4.getString("cep")));
+                parameters2.put("nomeFantasia",rs4.getString("nomefantasia"));
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Erro ao carregar os parâmetros do relatório!\n" + e);

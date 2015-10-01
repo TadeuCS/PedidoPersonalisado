@@ -7,8 +7,8 @@
 	<parameter name="endereco" class="java.lang.String"/>
 	<parameter name="bairro" class="java.lang.String"/>
 	<parameter name="cidade" class="java.lang.String"/>
-	<parameter name="estado" class="java.lang.String"/>
 	<parameter name="cep" class="java.lang.String"/>
+	<parameter name="nomeFantasia" class="java.lang.String"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -29,89 +29,47 @@
 					<pen lineStyle="Dashed"/>
 				</graphicElement>
 			</rectangle>
-			<staticText>
-				<reportElement x="0" y="0" width="119" height="38" uuid="4bc0a578-3504-4f0a-9d8a-e3b41ad620b4"/>
-				<textElement verticalAlignment="Middle">
-					<font fontName="Arial" size="18" isBold="true"/>
-				</textElement>
-				<text><![CDATA[Razão Social:]]></text>
-			</staticText>
 			<textField isBlankWhenNull="true">
-				<reportElement x="119" y="0" width="380" height="38" uuid="b65f7363-586e-41cc-8a18-fc9f13f3f7cb"/>
+				<reportElement x="6" y="0" width="489" height="20" uuid="b65f7363-586e-41cc-8a18-fc9f13f3f7cb"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Arial" size="18" isBold="false"/>
+					<font fontName="Arial" size="16" isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{razao}]]></textFieldExpression>
 			</textField>
-			<staticText>
-				<reportElement x="0" y="38" width="92" height="38" uuid="c7825701-8064-4d3b-9355-8f6c6e261ae0"/>
-				<textElement verticalAlignment="Middle">
-					<font fontName="Arial" size="18" isBold="true"/>
-				</textElement>
-				<text><![CDATA[Endereço:]]></text>
-			</staticText>
 			<textField isBlankWhenNull="true">
-				<reportElement x="92" y="38" width="407" height="38" uuid="1564c82e-fb86-47e4-8ee4-20c2218b9312"/>
+				<reportElement x="6" y="56" width="489" height="20" uuid="1564c82e-fb86-47e4-8ee4-20c2218b9312"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Arial" size="18" isBold="false"/>
+					<font fontName="Arial" size="16" isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{endereco}]]></textFieldExpression>
 			</textField>
-			<staticText>
-				<reportElement x="0" y="76" width="69" height="38" uuid="332aec99-af88-46c0-b2af-fde330e9c60b"/>
-				<textElement verticalAlignment="Middle">
-					<font fontName="Arial" size="18" isBold="true"/>
-				</textElement>
-				<text><![CDATA[Bairro:]]></text>
-			</staticText>
 			<textField isBlankWhenNull="true">
-				<reportElement x="69" y="76" width="298" height="38" uuid="b9ec42a9-53f1-4d3d-9edf-831ffc1b4734"/>
+				<reportElement x="6" y="76" width="357" height="20" uuid="b9ec42a9-53f1-4d3d-9edf-831ffc1b4734"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Arial" size="18" isBold="false"/>
+					<font fontName="Arial" size="16" isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{bairro}]]></textFieldExpression>
 			</textField>
-			<staticText>
-				<reportElement x="0" y="114" width="69" height="38" uuid="cc054c4a-5265-428a-8fcb-0cbdfb49d09e"/>
-				<textElement verticalAlignment="Middle">
-					<font fontName="Arial" size="18" isBold="true"/>
-				</textElement>
-				<text><![CDATA[Cidade:]]></text>
-			</staticText>
 			<textField isBlankWhenNull="true">
-				<reportElement x="69" y="114" width="298" height="38" uuid="470989dc-d715-4a83-b891-d2cb13356ea9"/>
+				<reportElement x="6" y="96" width="420" height="20" uuid="470989dc-d715-4a83-b891-d2cb13356ea9"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Arial" size="18" isBold="false"/>
+					<font fontName="Arial" size="16" isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{cidade}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement x="411" y="114" width="88" height="38" uuid="dfac5be0-8263-490d-847c-39269364cff1"/>
+				<reportElement x="6" y="131" width="100" height="20" uuid="dfac5be0-8263-490d-847c-39269364cff1"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Arial" size="18"/>
+					<font fontName="Arial" size="16"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{cep}]]></textFieldExpression>
 			</textField>
-			<staticText>
-				<reportElement x="367" y="114" width="44" height="38" uuid="fca7f7e7-07ff-45bb-96c7-79c76292fa0d"/>
-				<textElement verticalAlignment="Middle">
-					<font fontName="Arial" size="18" isBold="true"/>
-				</textElement>
-				<text><![CDATA[CEP:]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="367" y="76" width="33" height="38" uuid="2f7e1f9e-cf4f-47c1-83bd-4f6ff7b80262"/>
-				<textElement verticalAlignment="Middle">
-					<font fontName="Arial" size="18" isBold="true"/>
-				</textElement>
-				<text><![CDATA[UF:]]></text>
-			</staticText>
 			<textField isBlankWhenNull="true">
-				<reportElement x="399" y="76" width="100" height="38" uuid="ad5414ed-1bba-4844-9d19-722b23de9871"/>
+				<reportElement x="6" y="20" width="489" height="20" uuid="f3cfa9e2-97f3-4924-ab00-eaa05d670688"/>
 				<textElement verticalAlignment="Middle">
-					<font fontName="Arial" size="18"/>
+					<font fontName="Arial" size="16"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{estado}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$P{nomeFantasia}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
