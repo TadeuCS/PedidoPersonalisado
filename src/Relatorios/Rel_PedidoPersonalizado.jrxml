@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Rel_PedidoPersonalizado" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="cbc2b2ee-1c25-40c3-92cb-71084264cf3a">
 	<property name="ireport.zoom" value="1.771561000000001"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="0"/>
+	<property name="ireport.y" value="103"/>
 	<style name="table">
 		<box>
 			<pen lineWidth="1.0" lineColor="#000000"/>
@@ -560,73 +560,73 @@
 			<rectangle>
 				<reportElement x="1" y="1" width="554" height="15" uuid="c79e4054-201d-461f-88e3-c91300f0ead8"/>
 			</rectangle>
-			<textField>
+			<textField isBlankWhenNull="true">
 				<reportElement x="0" y="1" width="39" height="15" uuid="c1cf29be-3914-41af-85cd-bb71fc6388a0"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Arial" size="6" isBold="true"/>
+					<font fontName="Arial" size="8" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{REF}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField isBlankWhenNull="true">
 				<reportElement x="40" y="1" width="154" height="15" uuid="46c17cca-37f4-473b-a619-476834015dc1"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="Arial" size="6" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{DESCRICAO}]]></textFieldExpression>
 			</textField>
-			<textField pattern="¤ #,##0.00">
+			<textField pattern="¤ #,##0.00" isBlankWhenNull="true">
 				<reportElement x="494" y="0" width="60" height="15" uuid="fc88bd30-1a29-4b10-907b-987bfa1e1c61"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font fontName="Arial" size="6" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{VLRTOTALITEM}]]></textFieldExpression>
 			</textField>
-			<textField pattern="¤ #,##0.00">
+			<textField pattern="¤ #,##0.00" isBlankWhenNull="true">
 				<reportElement x="436" y="0" width="57" height="15" uuid="c3fb9496-356d-4d5c-9702-e56bf57f8cdb"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font fontName="Arial" size="6" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{VLRLIQUIDO}]]></textFieldExpression>
 			</textField>
-			<textField pattern="#,##0.00 %">
+			<textField pattern="#,##0.00 %" isBlankWhenNull="true">
 				<reportElement x="389" y="0" width="46" height="15" uuid="4b16a450-bfa4-497a-8602-58d16b532c67"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="Arial" size="6" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{DESCPERC}]]></textFieldExpression>
 			</textField>
-			<textField pattern="¤ #,##0.00">
+			<textField pattern="¤ #,##0.00" isBlankWhenNull="true">
 				<reportElement x="334" y="0" width="54" height="15" uuid="8c8c6ccf-bea6-45cf-b195-350ca68e0252"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font fontName="Arial" size="6" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{VLRUNIT}]]></textFieldExpression>
 			</textField>
-			<textField>
+			<textField isBlankWhenNull="true">
 				<reportElement x="299" y="0" width="34" height="15" uuid="6ce410a2-0397-446f-93db-fbca55b7efce"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Arial" size="6" isBold="true"/>
+					<font fontName="Arial" size="8" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{QTDE}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement x="273" y="0" width="25" height="15" uuid="19cf641b-fbd7-464e-8531-e395810a57b2"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Arial" size="6" isBold="true"/>
+					<font fontName="Arial" size="8" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{qtdeU}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement x="247" y="0" width="25" height="15" uuid="20c976d3-72ee-4165-abb2-7e6871ead3c3"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Arial" size="6" isBold="true"/>
+					<font fontName="Arial" size="8" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{qtdeG}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
 				<reportElement x="195" y="1" width="25" height="15" uuid="6430e945-5fd3-47b1-8782-178074f6fa40"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Arial" size="6" isBold="true"/>
+					<font fontName="Arial" size="8" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{qtdeP}]]></textFieldExpression>
 			</textField>
@@ -663,7 +663,7 @@
 			<textField isBlankWhenNull="true">
 				<reportElement x="221" y="0" width="25" height="15" uuid="027d2bca-534a-4a66-ac76-8eb2414cf8d0"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Arial" size="6" isBold="true"/>
+					<font fontName="Arial" size="8" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{qtdeM}]]></textFieldExpression>
 			</textField>
@@ -765,14 +765,14 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$P{dataEntrega}]]></textFieldExpression>
 			</textField>
-			<textField pattern="" isBlankWhenNull="false">
+			<textField pattern="" isBlankWhenNull="true">
 				<reportElement x="482" y="20" width="69" height="20" uuid="692098ea-8b8c-417c-a441-c118cca589a9"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font fontName="Arial" size="12" isBold="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{vlrAcrescimo}]]></textFieldExpression>
 			</textField>
-			<textField pattern="" isBlankWhenNull="false">
+			<textField pattern="" isBlankWhenNull="true">
 				<reportElement x="482" y="65" width="69" height="20" uuid="bae19e12-794c-4c95-8f6b-e70195c5b9ee"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font fontName="Arial" size="12" isBold="true"/>
@@ -804,7 +804,7 @@
 				</textElement>
 				<text><![CDATA[FRETE:]]></text>
 			</staticText>
-			<textField pattern="" isBlankWhenNull="false">
+			<textField pattern="" isBlankWhenNull="true">
 				<reportElement x="482" y="42" width="69" height="20" uuid="4a594278-c261-4fa6-9a5f-09c211113053"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font fontName="Arial" size="12" isBold="true"/>
